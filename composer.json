@@ -1,0 +1,19 @@
+{
+    "name": "konsulting/matrix",
+    "description": "Utilities for interacting with PHP matrices (two-dimensional arrays).",
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robin D'Arcy",
+            "email": "robin@klever.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Konsulting\\Matrix\\": "src/"
+        }
+    }
+}
