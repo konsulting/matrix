@@ -137,4 +137,25 @@ class Matrix
         });
     }
 
+    /**
+     * Insert a column into the matrix at the specified point.
+     *
+     * @param array[] $matrix
+     * @param array   $column The column to insert
+     * @param int     $position
+     * @return array[]
+     */
+    public static function insertColumn($matrix, $column, $position)
+    {
+        $column = array_values($column);
+        $rowNumber = 0;
+
+        return array_map(function (array $row) use ($column, $position, &$rowNumber) {
+            array_splice($row, $position, null, $column[$rowNumber]);
+            $rowNumber++;
+
+            return $row;
+        }, $matrix);
+    }
+
 }

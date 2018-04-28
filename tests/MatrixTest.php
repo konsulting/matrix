@@ -146,4 +146,25 @@ class MatrixTest extends TestCase
 
         $this->assertEquals($expected, Matrix::convertDecimalSeparators($array));
     }
+
+    /** @test */
+    public function it_inserts_a_column_at_the_specified_position()
+    {
+        $matrix = [
+            [0, 0, 0],
+            [0, 0, 0],
+        ];
+
+        $expected1 = [
+            [1, 0, 0, 0],
+            [2, 0, 0, 0],
+        ];
+        $expected2 = [
+            [0, 0, 1, 0],
+            [0, 0, 2, 0],
+        ];
+
+        $this->assertSame($expected1, Matrix::insertColumn($matrix, ['a' => 1, 2], 0));
+        $this->assertSame($expected2, Matrix::insertColumn($matrix, ['a' => 1, 2], 2));
+    }
 }
