@@ -167,4 +167,27 @@ class MatrixTest extends TestCase
         $this->assertSame($expected1, Matrix::insertColumn($matrix, ['a' => 1, 2], 0));
         $this->assertSame($expected2, Matrix::insertColumn($matrix, ['a' => 1, 2], 2));
     }
+
+    /** @test */
+    public function it_inserts_a_row_at_the_specified_position()
+    {
+        $matrix = [
+            [0, 0],
+            [0, 0],
+        ];
+
+        $expected1 = [
+            [1, 2],
+            [0, 0],
+            [0, 0],
+        ];
+        $expected2 = [
+            [0, 0],
+            [1, 2],
+            [0, 0],
+        ];
+
+        $this->assertSame($expected1, Matrix::insertRow($matrix, ['a' => 1, 2], 0));
+        $this->assertSame($expected2, Matrix::insertRow($matrix, ['a' => 1, 2], 1));
+    }
 }

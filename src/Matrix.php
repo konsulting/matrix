@@ -138,24 +138,34 @@ class Matrix
     }
 
     /**
-     * Insert a column into the matrix at the specified point.
+     * Insert a row into the matrix at the specified offset.
+     *
+     * @param array[] $matrix
+     * @param array   $row The row to insert
+     * @param int     $offset
+     * @return array[]
+     */
+    public static function insertRow($matrix, $row, $offset)
+    {
+        $row = array_values($row);
+        array_splice($matrix, $offset, null, [$row]);
+
+        return $matrix;
+    }
+
+    /**
+     * Insert a column into the matrix at the specified offset.
      *
      * @param array[] $matrix
      * @param array   $column The column to insert
-     * @param int     $position
+     * @param int     $offset
      * @return array[]
      */
-    public static function insertColumn($matrix, $column, $position)
+    public static function insertColumn($matrix, $column, $offset)
     {
-        $column = array_values($column);
-        $rowNumber = 0;
+        $transposed = static::transpose($matrix);
+        $withColumn = static::insertRow($transposed, $column, $offset);
 
-        return array_map(function (array $row) use ($column, $position, &$rowNumber) {
-            array_splice($row, $position, null, $column[$rowNumber]);
-            $rowNumber++;
-
-            return $row;
-        }, $matrix);
+        return static::transpose($withColumn);
     }
-
 }
