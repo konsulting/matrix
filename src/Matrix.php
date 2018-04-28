@@ -31,9 +31,7 @@ class Matrix
      */
     public static function removeNullColumns($matrix)
     {
-        return static::transpose(
-            static::removeNullRows(
-                static::transpose($matrix)));
+        return static::callTransposed('removeNullRows', $matrix);
     }
 
     /**
@@ -163,9 +161,29 @@ class Matrix
      */
     public static function insertColumn($matrix, $column, $offset)
     {
-        $transposed = static::transpose($matrix);
-        $withColumn = static::insertRow($transposed, $column, $offset);
+        return static::callTransposed('insertRow', $matrix, $column, $offset);
+    }
 
-        return static::transpose($withColumn);
+    /**
+     * Call a function with the subject matrix transposed. Returns the matrix in its original orientation.
+     *
+     * @param string|callable $callable  The name of a method on this class or a callable.
+     * @param array[]         $matrix
+     * @param array           $arguments The arguments to pass to the callable. May be given as an array or listed as
+     *                                   additional arguments to this method
+     * @return array[]
+     */
+    protected static function callTransposed($callable, $matrix, $arguments = [])
+    {
+        $arguments = count(func_get_args()) > 3
+            ? array_slice(func_get_args(), 2)
+            : (array) $arguments;
+
+        $transposed = static::transpose($matrix);
+        $result = is_string($callable) && method_exists(static::class, $callable)
+            ? static::$callable($transposed, ...$arguments)
+            : $callable($transposed, ...$arguments);
+
+        return static::transpose($result);
     }
 }
