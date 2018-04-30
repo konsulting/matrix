@@ -52,15 +52,27 @@ class Matrix
      */
     protected static function callTransposed($callable, $matrix, $arguments = [])
     {
-        $arguments = count(func_get_args()) > 3
-            ? array_slice(func_get_args(), 2)
-            : (array) $arguments;
-
+        $arguments = static::getDynamicArguments(func_get_args(), 2);
         $transposed = static::transpose($matrix);
         $result = is_string($callable) && method_exists(static::class, $callable)
             ? static::$callable($transposed, ...$arguments)
             : $callable($transposed, ...$arguments);
 
         return static::transpose($result);
+    }
+
+    /**
+     * Extract an array from the method arguments, which may be an array passed as the final argument, or as separate
+     * additional arguments.
+     *
+     * @param array $methodArgs
+     * @param int   $numberStaticArgs
+     * @return array
+     */
+    protected static function getDynamicArguments(array $methodArgs, int $numberStaticArgs)
+    {
+        return count($methodArgs) > $numberStaticArgs + 1
+            ? array_slice($methodArgs, $numberStaticArgs)
+            : (array) $methodArgs;
     }
 }
