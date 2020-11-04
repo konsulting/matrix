@@ -58,7 +58,7 @@ trait AffectsElementContents
     public static function convertDecimalSeparators($matrix, $from = ',', $to = '.')
     {
         return static::map($matrix, function ($element) use ($from, $to) {
-            return preg_replace("/^\s*(\d+)[\{$from}](\d+)\s*$/", "$1{$to}$2", $element);
+            return preg_replace("/^\s*(-?\d+)[\{$from}](\d+)\s*$/", "$1{$to}$2", $element);
         });
     }
 }

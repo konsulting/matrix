@@ -148,6 +148,15 @@ class MatrixTest extends TestCase
     }
 
     /** @test */
+    public function it_converts_negative_decimal_separator_characters()
+    {
+        $array = [['  -1,99', '-2,0', '-0,00  ']];
+        $expected = [['-1.99', '-2.0', '-0.00']];
+
+        $this->assertEquals($expected, Matrix::convertDecimalSeparators($array));
+    }
+
+    /** @test */
     public function it_inserts_a_column_at_the_specified_position()
     {
         $matrix = [
