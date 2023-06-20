@@ -30,7 +30,7 @@ trait AffectsElementContents
     public static function trimStrings($matrix)
     {
         return static::map($matrix, function ($item) {
-            return is_string($item) ? trim($item) : $item;
+            return is_string($item) ? trim(html_entity_decode($item), " \t\n\r\0\x0B\xC2\xA0") : $item;
         });
     }
 
